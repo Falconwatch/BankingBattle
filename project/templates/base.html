@@ -15,12 +15,14 @@
         <div class="hero-head">
             <nav class="navbar">
                 <div class="container">
-
                     <div class="navbar-end">
                         <a href="{{ url_for('main.index') }}" class="navbar-item">
                             Home
                         </a>
                         {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('game.game_stats') }}" class="navbar-item">
+                            Game
+                        </a>
                         <a href="{{ url_for('main.profile') }}" class="navbar-item">
                             Profile
                         </a>

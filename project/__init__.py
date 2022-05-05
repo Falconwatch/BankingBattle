@@ -17,6 +17,10 @@ def create_app():
     from project.auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
+    # blueprint for game routes in our app
+    from project.game import game as game_blueprint
+    app.register_blueprint(game_blueprint)
+
     # blueprint for non-auth parts of app
     from project.main import main as main_blueprint
     app.register_blueprint(main_blueprint)
