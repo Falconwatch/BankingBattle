@@ -4,8 +4,17 @@ from . import db
 
 game = Blueprint('game', __name__)
 
+@game.route("/game/resuls")
+@login_required
+def game_results():
+    return render_template('game_results.html')
+
 @game.route("/game")
 @login_required
-def game_stats():
+def game_main():
     return render_template('game.html')
-    return "sad"
+
+@game.route("/game/leaders")
+@login_required
+def game_leaders():
+    return render_template('game_leaders.html')

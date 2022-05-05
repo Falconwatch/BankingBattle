@@ -2,6 +2,26 @@
 
 {% block content %}
 <h1 class="title">
-  Game actions are here
+  ББ
 </h1>
+
+<div class="tile is-ancestor">
+  <div class="tile is-4 is-vertical is-parent">
+    <div class="tile is-child box" >
+      <a class="title has-text-black" href="{{ url_for('game.game_results') }}">Ваши результаты</a>
+      <p>Ваши результаты и детали по этапам</p>
+    </div>
+    <div class="tile is-child box">
+      <a class="title has-text-black" href="{{ url_for('game.game_leaders') }}">Лидеры</a>
+      <p>Лидерборд участников соревнования</p>
+    </div>
+  </div>
+  <div class="tile is-parent">
+    <div class="tile is-child box">
+      <p class="title has-text-black">Описание</p>
+      <p>Здесь подробное и красивое описание игры</p>
+    </div>
+  </div>
+</div>
+
 {% endblock %}

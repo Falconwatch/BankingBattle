@@ -2,9 +2,13 @@
 
 {% block content %}
 <h1 class="title">
-  Flask Login Example
+  ББ
 </h1>
 <h2 class="subtitle">
-  Easy authentication and authorization in Flask.
+  Игра в которой вам предстоит сразиться с другими ДС за деньги клиентов
 </h2>
+
+{% if current_user.is_authenticated %}
+<a href = "{{ url_for('game.game_main') }}" class="button is-medium is-responsive" > К Игре! </a>
+{% endif %}
 {% endblock %}
