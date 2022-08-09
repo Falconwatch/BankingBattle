@@ -33,7 +33,10 @@ ALLOWED_HOSTS = []
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails') 
 
-LOGIN_REDIRECT_URL='/'
+LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = 'battle:index'
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] 
 
 # Application definition
 
