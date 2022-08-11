@@ -15,18 +15,24 @@ source path/to/myvenv/bin/activate
 ```
 pip install -r requirements.txt
 ``` 
-3) Для разворачивания БД выполните команды в папке с файлом manage.py :
+
+3) Задайте значение переменной среды SECRET_KEY:
+```
+export SECTER_KEY=mysecretkey
+``` 
+
+4) Для разворачивания БД выполните команды в папке с файлом manage.py :
 ```
 python3 manage.py makemigrations 
 python3 manage.py migrate
 ```
 
-- Для создания Superuser папке с файлом manage.py выполните команду:
+5) Для создания Superuser папке с файлом manage.py выполните команду:
 ```
 python3 manage.py createsuperuser 
 ```
 
-- Для запуска сервиса папке с файлом manage.py выполните команду:
+6) Для запуска сервиса папке с файлом manage.py выполните команду:
 ```
 python3 manage.py runserver
 ```
