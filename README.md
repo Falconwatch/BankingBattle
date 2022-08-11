@@ -18,7 +18,7 @@ pip install -r requirements.txt
 
 3) Задайте значение переменной среды SECRET_KEY:
 ```
-export SECTER_KEY=mysecretkey
+export SECRET_KEY=mysecretkey
 ``` 
 
 4) Для разворачивания БД выполните команды в папке с файлом manage.py :
