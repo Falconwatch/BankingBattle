@@ -5,12 +5,17 @@
 Python 3.7
 Django 3.2
 ### Запуск проекта в dev-режиме
-- Установите и активируйте виртуальное окружение
-- Установите зависимости из файла requirements.txt
+1) Установите и активируйте виртуальное окружение, например вот так (linux/mac):
+``` 
+python3 -m venv path/to/myvenv
+source path/to/myvenv/bin/activate
+``` 
+
+2) Установите зависимости из файла requirements.txt
 ```
 pip install -r requirements.txt
 ``` 
-- Для разворачивания БД выполните команды в папке с файлом manage.py :
+3) Для разворачивания БД выполните команды в папке с файлом manage.py :
 ```
 python3 manage.py makemigrations 
 python3 manage.py migrate
