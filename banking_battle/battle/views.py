@@ -1,6 +1,5 @@
 import mimetypes
 import os
-
 from banking_battle.settings import BASE_DIR
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -11,7 +10,10 @@ from .models import User, Game, Round
 
 def index(request):
     user = request.user
-    if user:
+    if user.is_anonymous:
+        template = 'battle/index.html'
+        return render(request, template)
+    else:
         template = 'battle/index_signedin.html'
         users_teams = user.users_teams.all()
         context = {
@@ -19,9 +21,6 @@ def index(request):
             'users_teams': users_teams
         }
         return render(request, template, context)
-    else:
-        template = 'battle/index.html'
-        return render(request, template)
 
 
 def profile(request, username):
@@ -71,6 +70,7 @@ def games(request):
     context = {"all_games": all_games}
     return render(request, template, context)
 
+@login_required
 def round(request, roundid):
     template = 'battle/round.html'
     round = Round.objects.get(pk=roundid)
