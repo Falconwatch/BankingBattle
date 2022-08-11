@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class Game(models.Model):
     title = models.CharField(max_length=30)
     description = models.CharField(max_length=3000)
@@ -13,6 +14,7 @@ class Game(models.Model):
 
     def __str__(self):
         return self.title
+
 
 class Team(models.Model):
     name = models.CharField(max_length=256)
@@ -26,6 +28,7 @@ class Team(models.Model):
     def __str__(self):
         return self.name
 
+
 class Round(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=1024)
@@ -36,6 +39,7 @@ class Round(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Dataset(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -48,6 +52,7 @@ class Dataset(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Submission(models.Model):
     id = models.BigAutoField(primary_key=True)
