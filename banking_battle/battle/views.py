@@ -1,6 +1,5 @@
 import mimetypes
 import os
-
 from banking_battle.settings import BASE_DIR
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
