@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import User, Game
+from .models import User, Game, Round
 
 
 def index(request):
@@ -49,7 +49,7 @@ def leaders(request):
 def game(request, gameid):
     user = request.user
     game = Game.objects.get(pk=gameid)
-    #ToDo: упростить блок ниже и вообще он не работает, всегда false
+    #ToDo: упростить блок ниже
     user_in_team = False
     for team in user.users_teams.all():
         if team.game.id == gameid:
@@ -65,11 +65,18 @@ def game(request, gameid):
                "game_rounds": game_rounds} # Если пользователь участвует в соревновании, доступна форма сабмита
     return render(request, template, context)
 
-
 def games(request):
     template = 'battle/games.html'
     all_games = Game.objects.all()
     context = {"all_games": all_games}
+    return render(request, template, context)
+
+def round(request, roundid):
+    template = 'battle/round.html'
+    round = Round.objects.get(pk=roundid)
+    game = round.game
+
+    context = {"game":game, "round":round}
     return render(request, template, context)
 
 @login_required

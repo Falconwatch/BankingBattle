@@ -36,7 +36,7 @@
     <tr>
       <td>{{round.id}}</td>
       <td>{{round.name}}</td>
-      <td>Тут будет ссылка</td>
+      <td><button type="submit" value={{round}} onclick="location.href='/round/{{round.id}}'" name='toroundbtn'>К игре</button></td>
     </tr>
     {% endfor %}
   </table>
