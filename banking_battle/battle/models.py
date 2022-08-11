@@ -27,6 +27,29 @@ class Team(models.Model):
     def __str__(self):
         return self.name
 
+class Round(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=1024)
+    game = models.ForeignKey(Game, on_delete=models.SET_NULL, null=True, related_name='rounds')
+
+    class Meta:
+        ordering = ['id']
+
+    def __str__(self):
+        return self.name
+
+class Dataset(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=256)
+    path = models.CharField(max_length=1024)
+    round = models.ForeignKey(Round, on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        ordering = ['id']
+
+    def __str__(self):
+        return self.name
+
 
 
 

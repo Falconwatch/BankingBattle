@@ -55,8 +55,12 @@ def game(request, gameid):
         if team.game.id == gameid:
             user_in_team = True
 
+    game_rounds = game.rounds.all()
+
     template = 'battle/game.html'
-    context = {"game": game, "show_submit_form": user_in_team} # Если пользователь участвует в соревновании, доступна форма сабмита
+    context = {"game": game,
+               "show_submit_form": user_in_team,
+               "game_rounds": game_rounds} # Если пользователь участвует в соревновании, доступна форма сабмита
     return render(request, template, context)
 
 

@@ -24,4 +24,22 @@
   </div>
 </div>
 
+
+  <div>
+  <table class="table">
+    <tr>
+      <td>ID раунда</td>
+      <td>Название раунда</td>
+      <td>Открыть раунд</td>
+    </tr>
+    {%for round in game_rounds%}
+    <tr>
+      <td>{{round.id}}</td>
+      <td>{{round.name}}</td>
+      <td>Тут будет ссылка</td>
+    </tr>
+    {%endfor%}
+  </table>
+  </div>
+
 {% endblock %}
