@@ -49,12 +49,14 @@ def leaders(request):
 def game(request, gameid):
     user = request.user
     game = Game.objects.get(pk=gameid)
-    #ToDo: упростить блок ниже
+    #ToDo: упростить блок ниже и вообще он не работает, всегда false
     user_in_team = False
     for team in user.users_teams.all():
         if team.game.id == gameid:
+            print("here")
+            print(team.game.id, gameid)
             user_in_team = True
-
+    print(user_in_team)
     game_rounds = game.rounds.all()
 
     template = 'battle/game.html'
