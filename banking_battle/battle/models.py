@@ -14,7 +14,6 @@ class Game(models.Model):
     def __str__(self):
         return self.title
 
-
 class Team(models.Model):
     name = models.CharField(max_length=256)
     id = models.BigAutoField(primary_key=True)
@@ -50,9 +49,14 @@ class Dataset(models.Model):
     def __str__(self):
         return self.name
 
+class Submission(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    submission_dt = models.DateTimeField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    round = models.ForeignKey(Round, on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ['id']
 
-
-
-
-
+    def __str__(self):
+        return self.name

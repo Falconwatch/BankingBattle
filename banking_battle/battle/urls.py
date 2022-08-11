@@ -11,5 +11,5 @@ urlpatterns = [
     path('game/leaders/', views.leaders, name='leaders'),
     path('games/', views.games, name='games'),
     path('game/download', views.download_file, name='download'),
-    path('round/<int:roundid>/', views.round, name='round')
+    path('round/<int:roundid>/', views.round, name='round'),
 ] 
