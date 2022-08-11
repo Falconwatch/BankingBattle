@@ -10,7 +10,7 @@ from .models import User, Game, Round
 
 def index(request):
     user = request.user
-    if user.is_anonimous:
+    if user.is_anonymous:
         template = 'battle/index.html'
         return render(request, template)
     else:
