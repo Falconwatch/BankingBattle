@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  Добро пожаловать на Banking Battle
+</h1>
+<h2>Ваши игры: </h2>
+  {% if users_teams|length == 0 %}
+  Вы не состоите ни в одной команде
+  {% else %}
+    <table class="table">
+
+      <td>Игра</td>
+      <td>Описание игры</td>
+      <td>Ваша команда</td>
+      <td>Перейти к игре</td>
+    {% for team in users_teams %}
+        <tr>
+          <td>{{ team.game }}</td>
+          <td>{{ team.game.description }}</td>
+          <td>{{ team.name }}</td>
+          <td><button type="submit" value={{team.game}} onclick="location.href='/game/{{team.game.id}}'" name='togamebtn'>К игре</button></td>
+        </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+
+{% if current_user.is_authenticated %}
+<a class="button is-medium is-responsive" > К Игре! </a>
+{% endif %}
+{% endblock %}

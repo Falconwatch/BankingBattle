@@ -7,8 +7,8 @@
                 Главная
               </a>
               {% if user.is_authenticated %}
-              <a href="{% url 'battle:game_main'%}" class="navbar-item">
-                К игре!
+              <a href="{% url 'battle:games'%}" class="navbar-item">
+                Список игр
               </a> 
               <a href="{% url 'battle:profile' user.username%}" class="navbar-item">
                   Профиль: {{ user.username }}

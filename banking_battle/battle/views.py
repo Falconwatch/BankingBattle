@@ -6,18 +6,31 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import User
+from .models import User, Game, Round
 
 
-def index(request):    
-    template = 'battle/index.html'
-    return render(request, template) 
+def index(request):
+    user = request.user
+    if user:
+        template = 'battle/index_signedin.html'
+        users_teams = user.users_teams.all()
+        context = {
+            'user': user,
+            'users_teams': users_teams
+        }
+        return render(request, template, context)
+    else:
+        template = 'battle/index.html'
+        return render(request, template)
+
 
 def profile(request, username):
     template = 'battle/profile.html'
-    author = get_object_or_404(User, username=username)
+    user = get_object_or_404(User, username=username)
+    users_teams = user.users_teams.all()
     context = {
-        'author': author,
+        'user': user,
+        'users_teams': users_teams
     }
     return render(request, template, context)
 
@@ -33,9 +46,38 @@ def leaders(request):
     return render(request, template) 
 
 @login_required
-def game_main(request):
+def game(request, gameid):
+    user = request.user
+    game = Game.objects.get(pk=gameid)
+    #ToDo: упростить блок ниже
+    user_in_team = False
+    for team in user.users_teams.all():
+        if team.game.id == gameid:
+            print("here")
+            print(team.game.id, gameid)
+            user_in_team = True
+    print(user_in_team)
+    game_rounds = game.rounds.all()
+
     template = 'battle/game.html'
-    return render(request, template) 
+    context = {"game": game,
+               "show_submit_form": user_in_team,
+               "game_rounds": game_rounds} # Если пользователь участвует в соревновании, доступна форма сабмита
+    return render(request, template, context)
+
+def games(request):
+    template = 'battle/games.html'
+    all_games = Game.objects.all()
+    context = {"all_games": all_games}
+    return render(request, template, context)
+
+def round(request, roundid):
+    template = 'battle/round.html'
+    round = Round.objects.get(pk=roundid)
+    game = round.game
+
+    context = {"game":game, "round":round}
+    return render(request, template, context)
 
 @login_required
 def download_file(request):

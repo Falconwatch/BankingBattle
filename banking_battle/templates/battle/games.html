@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  Список проходящих игр
+</h1>
+
+    <table class="table">
+      <td>Игра</td>
+      <td>Описание игры</td>
+      <td>Перейти к игре</td>
+    {%for game in all_games%}
+        <tr>
+          <td>{{game.title}}</td>
+          <td>{{game.description}}</td>
+          <td><button type="submit" value={{game}} onclick="location.href='/game/{{game.id}}'" name='togamebtn'>К игре</button></td>
+        </tr>
+    {% endfor %}
+  </table>
+
+
+{% endblock %}

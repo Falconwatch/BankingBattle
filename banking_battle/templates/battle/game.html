@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1 class="title">
-  ББ
+  {{game.title}}
 </h1>
 
 <div class="tile is-ancestor">
@@ -19,9 +19,28 @@
   <div class="tile is-parent">
     <div class="tile is-child box">
       <p class="title has-text-black">Описание</p>
-      <p>Здесь подробное и красивое описание игры</p>
+      <p>{{game.description}}</p>
     </div>
   </div>
 </div>
+
+{% if show_submit_form %}
+  <div>
+  <table class="table">
+    <tr>
+      <td>ID раунда</td>
+      <td>Название раунда</td>
+      <td>Открыть раунд</td>
+    </tr>
+    {% for round in game_rounds %}
+    <tr>
+      <td>{{round.id}}</td>
+      <td>{{round.name}}</td>
+      <td><button type="submit" value={{round}} onclick="location.href='/round/{{round.id}}'" name='toroundbtn'>К игре</button></td>
+    </tr>
+    {% endfor %}
+  </table>
+  </div>
+{% endif %}
 
 {% endblock %}
