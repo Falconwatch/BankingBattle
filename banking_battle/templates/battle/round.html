@@ -7,7 +7,66 @@
 <h2 class="title">
   Раунд: {{round.name}}
 </h2>
-<button>Скачать данные</button>
-Форма для загрузки решения
-<button>Загрузить <решение></решение></button>
+
+<div class="tile is-ancestor">
+  <div class="tile is-4 is-vertical is-parent">
+    <div class="tile is-child box">
+      <p class="title">
+          <button>Скачать данные</button>
+      </p>
+    </div>
+    <div class="tile is-child box">
+      <p class="title has-text-black">Загрузить решение</p>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="file has-name is-fullwidth">
+              <label class="file-label">
+                 <input class="file-input" type="file" name="upload" accept=".csv, .txt">
+                <span class="file-cta">
+                  <span class="file-icon">
+                    <i class="fas fa-upload"></i>
+                  </span>
+                  <span class="file-label">
+                    Выбрать
+                  </span>
+                </span>
+                <span class="file-name">
+                  *.csv
+                </span>
+              </label>
+                <input type="submit">
+            </div>
+
+        </form>
+
+    </div>
+  </div>
+  <div class="tile is-parent">
+    <div class="tile is-child box">
+      <p class="title has-text-black">Сабмиты вашей команды</p>
+        <table class = "table">
+            <tr>
+                <td>ID сабмита</td>
+                <td>Дата сабмита</td>
+                <td>Название файла</td>
+                <td>Скачать</td>
+            </tr>
+        {%for sub in team_submits%}
+            <tr>
+                <td>{{sub.id}}</td>
+                <td>{{sub.submission_dt}}</td>
+                <td>{{sub.file}}</td>
+                <td><button type="submit" value={{sub.id}} onclick="location.href='/download_submit/{{sub.id}}'" name='downsubbtn'>Скачать</button></td>
+            </tr>
+            {%endfor%}
+        </table>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 {% endblock %}

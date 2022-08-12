@@ -54,14 +54,15 @@ class Dataset(models.Model):
         return self.name
 
 
-class Submission(models.Model):
+class Submit(models.Model):
     id = models.BigAutoField(primary_key=True)
-    submission_dt = models.DateTimeField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    submission_dt = models.DateTimeField(auto_now_add=True)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
     round = models.ForeignKey(Round, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='submits/')
 
     class Meta:
         ordering = ['id']
 
     def __str__(self):
-        return self.name
+        return str(self.id)
