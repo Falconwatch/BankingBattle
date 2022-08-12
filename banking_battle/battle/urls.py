@@ -12,4 +12,5 @@ urlpatterns = [
     path('games/', views.games, name='games'),
     path('game/download', views.download_file, name='download'),
     path('round/<int:roundid>/', views.round, name='round'),
+    path('download_submit/<int:submit_id>', views.download_submit, name='download_submit')
 ] 
