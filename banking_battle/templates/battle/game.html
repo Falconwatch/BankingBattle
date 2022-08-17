@@ -14,6 +14,19 @@
     <div class="tile is-child box">
       <a class="title has-text-black" href="{% url 'battle:leaders'%}">Лидеры</a>
       <p>Лидерборд участников соревнования</p>
+      <table class="table">
+        <tr>
+          <td>Имя команды</td>
+          <td>Результат</td>
+        </tr>
+        {% for leader in leaders%}
+          <tr>
+            <td>{{leader.name}}</td>
+            <td>{{leader.result}}</td>
+          </tr>
+        {%endfor%}
+      </table>
+
     </div>
   </div>
   <div class="tile is-parent">
