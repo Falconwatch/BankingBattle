@@ -8,8 +8,15 @@
 <div class="tile is-ancestor">
   <div class="tile is-4 is-vertical is-parent">
     <div class="tile is-child box" >
-      <a class="title has-text-black" href="{% url 'battle:results'%}">Ваши результаты</a>
-      <p>Ваши результаты и детали по этапам</p>
+      <a class="title has-text-black" href="{% url 'battle:results'%}">Ваш результат</a>
+      {% if user_in_team %}
+      <p>Ваша команда: {{user_result.team_name}}</p>
+
+        <p>Ваш результат: </p><h1>{{user_result.result}}</h1>
+      {% else %}
+      <p>Вы не участвуете в этой игре</p>
+      {% endif %}
+
     </div>
     <div class="tile is-child box" title="Общий результат вычисляется на основе лучших в каждом раунде">
       <a class="title has-text-black">Лидеры</a>
@@ -20,7 +27,7 @@
           <td>Результат</td>
         </tr>
         {% for leader in leader_board%}
-          <tr>
+          <tr {% if leader.2 == 1%} bgcolor="lightgray" {%endif%}>
             <td>{{leader.0.1}}</td>
             <td>{{leader.1}}</td>
           </tr>
@@ -37,7 +44,7 @@
   </div>
 </div>
 
-{% if show_submit_form %}
+{% if user_in_team %}
   <div>
   <table class="table">
     <tr>

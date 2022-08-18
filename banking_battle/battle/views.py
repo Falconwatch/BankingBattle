@@ -1,16 +1,15 @@
 import mimetypes
 import os
+from collections import defaultdict
+
+import django.db.models as f
 from banking_battle.settings import BASE_DIR
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, Http404
-from django.shortcuts import get_object_or_404, redirect, render
 from django.core.files.storage import FileSystemStorage
-import django.db.models as f
-from collections import defaultdict
-from django.conf import settings
+from django.http import HttpResponse, Http404
+from django.shortcuts import get_object_or_404, render
 
 from .models import User, Game, Round, Submit, Team
-from .forms import SubmitForm
 
 
 def index(request):
@@ -55,26 +54,36 @@ def leaders(request):
 def game(request, gameid):
     user = request.user
     game = Game.objects.get(pk=gameid)
+    team = Team.objects.filter(game__id=1).filter(users_in_team__in=[user.id]).first()
 
-    #тут собираем лидерборд
-    submits_in_game = Submit.objects.filter(round__game__id = gameid)
-    teams_results_in_rounds = (submits_in_game.values("team__name", "team__id", "round").annotate(round_result=f.Max("result")).all())
-    teams_results_in_game = defaultdict(lambda: 0)
+    # тут собираем лидерборд
+    submits_in_game = Submit.objects.filter(round__game__id=gameid)
+    teams_results_in_rounds = (
+        submits_in_game.values("team__name", "team__id", "round").annotate(round_result=f.Max("result")).all())
+
+    teams_results_in_game_dict = defaultdict(lambda: 0)
     for team_result_in_round in teams_results_in_rounds:
         team_identifier = (team_result_in_round["team__id"], team_result_in_round["team__name"])
-        teams_results_in_game[team_identifier] += team_result_in_round["round_result"]
-    teams_results_in_game = [(k, v) for k, v in teams_results_in_game.items()]
+        teams_results_in_game_dict[team_identifier] += team_result_in_round["round_result"]
+
+    teams_results_in_game = [(idenifier, result, 1 if idenifier[0]==team.id else 0) for idenifier, result in teams_results_in_game_dict.items()]
     teams_results_in_game = sorted(teams_results_in_game, key=lambda x: x[1], reverse=True)
 
-    # Тут определяем, состоит ли пользователь в команде, участвующей в игре
-    user_in_team = Team.objects.filter(game__id=1).filter(users_in_team__in=[user.id]).exists()
+    # Тут определяем, состоит ли пользователь в команде, участвующей в игре и результат его команды
+    user_in_team = True if team else False
+    user_result = dict()
+    if user_in_team:
+        user_result = {"result": teams_results_in_game_dict[(team.id, team.name)],
+                       "team_name": team.name}
 
+    # Выводим список раундов
     game_rounds = game.rounds.all()
 
     template = 'battle/game.html'
     context = {"game": game,
                "leader_board": teams_results_in_game,
-               "show_submit_form": user_in_team,
+               "user_in_team": user_in_team,
+               "user_result": user_result,
                "game_rounds": game_rounds}  # Если пользователь участвует в соревновании, доступна форма сабмита
     return render(request, template, context)
 
@@ -92,17 +101,17 @@ def round(request, roundid):
     game_round = Round.objects.get(pk=roundid)
     game = game_round.game
     user = request.user
-    team = Team.objects.filter(users_in_team__id__contains = user.id).first()
-    team_submits_in_this_round = Submit.objects.filter(round__id=roundid).filter(team__id = team.id).all()
+    team = Team.objects.filter(users_in_team__id__contains=user.id).first()
+    team_submits_in_this_round = Submit.objects.filter(round__id=roundid).filter(team__id=team.id).all()
 
-    if request.method == 'POST' and len(request.FILES)>0:
+    if request.method == 'POST' and len(request.FILES) > 0:
         upload = request.FILES['upload']
         fss = FileSystemStorage(location="submits/")
         file = fss.save(upload.name, upload)
         file_url = fss.url(file)
-        submit = Submit(team = team,
-                    round = game_round,
-                      file = file)
+        submit = Submit(team=team,
+                        round=game_round,
+                        file=file)
         submit.save()
         context = {"game": game,
                    "round": game_round,
@@ -115,11 +124,12 @@ def round(request, roundid):
                    "team_submits": team_submits_in_this_round}
         return render(request, template, context)
 
+
 @login_required
 def download_submit(request, submit_id):
     user = request.user
-    team = Team.objects.filter(users_in_team__id__contains = user.id).first()
-    submit = Submit.objects.filter(id=submit_id).filter(team__id = team.id).first()
+    team = Team.objects.filter(users_in_team__id__contains=user.id).first()
+    submit = Submit.objects.filter(id=submit_id).filter(team__id=team.id).first()
 
     file_name = submit.file.name
 
@@ -134,7 +144,6 @@ def download_submit(request, submit_id):
     raise Http404
 
 
-
 @login_required
 def download_file(request):
     # fill these variables with real values
@@ -146,5 +155,3 @@ def download_file(request):
     response = HttpResponse(fl, content_type=mime_type)
     response['Content-Disposition'] = "attachment; filename=%s" % filename
     return response
-
-
