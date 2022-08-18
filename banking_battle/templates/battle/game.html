@@ -19,10 +19,10 @@
           <td>Имя команды</td>
           <td>Результат</td>
         </tr>
-        {% for leader in leaders%}
+        {% for leader in leader_board%}
           <tr>
-            <td>{{leader.name}}</td>
-            <td>{{leader.result}}</td>
+            <td>{{leader.0.1}}</td>
+            <td>{{leader.1}}</td>
           </tr>
         {%endfor%}
       </table>

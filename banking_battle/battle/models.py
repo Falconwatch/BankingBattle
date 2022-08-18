@@ -60,9 +60,11 @@ class Submit(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     round = models.ForeignKey(Round, on_delete=models.CASCADE)
     file = models.FileField(upload_to='submits/')
+    result = models.DecimalField(default=0, decimal_places=10, max_digits=19)
+
 
     class Meta:
-        ordering = ['id']
+        ordering = ['team']
 
     def __str__(self):
-        return str(self.id)
+        return str(self.file)

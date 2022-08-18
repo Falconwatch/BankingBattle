@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.files.storage import FileSystemStorage
+import django.db.models as f
+from collections import defaultdict
 from django.conf import settings
 
 from .models import User, Game, Round, Submit, Team
@@ -53,18 +55,25 @@ def leaders(request):
 def game(request, gameid):
     user = request.user
     game = Game.objects.get(pk=gameid)
-    # ToDo: упростить блок ниже
-    user_in_team = False
-    for team in user.users_teams.all():
-        if team.game.id == gameid:
-            print("here")
-            print(team.game.id, gameid)
-            user_in_team = True
-    print(user_in_team)
+
+    #тут собираем лидерборд
+    submits_in_game = Submit.objects.filter(round__game__id = gameid)
+    teams_results_in_rounds = (submits_in_game.values("team__name", "team__id", "round").annotate(round_result=f.Max("result")).all())
+    teams_results_in_game = defaultdict(lambda: 0)
+    for team_result_in_round in teams_results_in_rounds:
+        team_identifier = (team_result_in_round["team__id"], team_result_in_round["team__name"])
+        teams_results_in_game[team_identifier] += team_result_in_round["round_result"]
+    teams_results_in_game = [(k, v) for k, v in teams_results_in_game.items()]
+    teams_results_in_game = sorted(teams_results_in_game, key=lambda x: x[1], reverse=True)
+
+    # Тут определяем, состоит ли пользователь в команде, участвующей в игре
+    user_in_team = Team.objects.filter(game__id=1).filter(users_in_team__in=[user.id]).exists()
+
     game_rounds = game.rounds.all()
 
     template = 'battle/game.html'
     context = {"game": game,
+               "leader_board": teams_results_in_game,
                "show_submit_form": user_in_team,
                "game_rounds": game_rounds}  # Если пользователь участвует в соревновании, доступна форма сабмита
     return render(request, template, context)
