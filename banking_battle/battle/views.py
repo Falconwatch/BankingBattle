@@ -159,3 +159,11 @@ def download_file(request):
     response = HttpResponse(fl, content_type=mime_type)
     response['Content-Disposition'] = "attachment; filename=%s" % filename
     return response
+
+
+@login_required
+def team_create(request):
+    template = 'battle/team_create.html'
+    context = {}
+    return render(request, template, context)
+    pass
