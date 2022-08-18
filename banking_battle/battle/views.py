@@ -1,16 +1,15 @@
 import mimetypes
 import os
+from collections import defaultdict
+
+import django.db.models as f
 from banking_battle.settings import BASE_DIR
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, Http404
-from django.shortcuts import get_object_or_404, redirect, render
 from django.core.files.storage import FileSystemStorage
-import django.db.models as f
-from collections import defaultdict
-from django.conf import settings
+from django.http import HttpResponse, Http404
+from django.shortcuts import get_object_or_404, render
 
 from .models import User, Game, Round, Submit, Team
-from .forms import SubmitForm
 
 
 def index(request):
