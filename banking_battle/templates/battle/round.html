@@ -50,6 +50,7 @@
                 <td>Дата сабмита</td>
                 <td>Название файла</td>
                 <td>Скачать</td>
+                <td>Результат</td>
             </tr>
         {%for sub in team_submits%}
             <tr>
@@ -57,6 +58,7 @@
                 <td>{{sub.submission_dt}}</td>
                 <td>{{sub.file}}</td>
                 <td><button type="submit" value={{sub.id}} onclick="location.href='/download_submit/{{sub.id}}'" name='downsubbtn'>Скачать</button></td>
+                <td>{{sub.result}}</td>
             </tr>
             {%endfor%}
         </table>

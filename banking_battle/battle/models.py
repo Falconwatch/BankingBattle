@@ -60,7 +60,7 @@ class Submit(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     round = models.ForeignKey(Round, on_delete=models.CASCADE)
     file = models.FileField(upload_to='submits/')
-    result = models.DecimalField(default=0, decimal_places=10, max_digits=19)
+    result = models.DecimalField(default=0, decimal_places=2, max_digits=19)
 
 
     class Meta:
