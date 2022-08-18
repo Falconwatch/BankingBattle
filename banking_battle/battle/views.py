@@ -66,8 +66,10 @@ def game(request, gameid):
         team_identifier = (team_result_in_round["team__id"], team_result_in_round["team__name"])
         teams_results_in_game_dict[team_identifier] += team_result_in_round["round_result"]
 
-    teams_results_in_game = [(idenifier, result, 1 if idenifier[0]==team.id else 0) for idenifier, result in teams_results_in_game_dict.items()]
+    teams_results_in_game = [(idenifier, result, 0) for idenifier, result in
+                             teams_results_in_game_dict.items()]
     teams_results_in_game = sorted(teams_results_in_game, key=lambda x: x[1], reverse=True)
+
 
     # Тут определяем, состоит ли пользователь в команде, участвующей в игре и результат его команды
     user_in_team = True if team else False
@@ -75,6 +77,8 @@ def game(request, gameid):
     if user_in_team:
         user_result = {"result": teams_results_in_game_dict[(team.id, team.name)],
                        "team_name": team.name}
+        teams_results_in_game = [(idenifier, result, 1 if idenifier[0] == team.id else 0) for idenifier, result, flag in
+                                 teams_results_in_game]
 
     # Выводим список раундов
     game_rounds = game.rounds.all()
