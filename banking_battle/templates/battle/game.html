@@ -11,9 +11,22 @@
       <a class="title has-text-black" href="{% url 'battle:results'%}">Ваши результаты</a>
       <p>Ваши результаты и детали по этапам</p>
     </div>
-    <div class="tile is-child box">
-      <a class="title has-text-black" href="{% url 'battle:leaders'%}">Лидеры</a>
+    <div class="tile is-child box" title="Общий результат вычисляется на основе лучших в каждом раунде">
+      <a class="title has-text-black">Лидеры</a>
       <p>Лидерборд участников соревнования</p>
+      <table class="table">
+        <tr>
+          <td>Имя команды</td>
+          <td>Результат</td>
+        </tr>
+        {% for leader in leader_board%}
+          <tr>
+            <td>{{leader.0.1}}</td>
+            <td>{{leader.1}}</td>
+          </tr>
+        {%endfor%}
+      </table>
+
     </div>
   </div>
   <div class="tile is-parent">
