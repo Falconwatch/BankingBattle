@@ -162,15 +162,19 @@ def download_file(request):
 
 
 @login_required
-def team_create(request):
-    template = 'battle/team_create.html'
+def apply(request, gameid):
+    template = 'battle/apply.html'
     context = {}
+    game_application = get_object_or_404(Game, id=gameid)
+    context["game_title"] = game_application.title
     #TODO: передавать с какой игры был выполнене переход, если не с какой - кидай 404
     if request.method == 'POST':
         pass
     else:
         current_user = request.user
-        current_user_team = Team.objects.filter(users_in_team__id = current_user.id).first()
+        current_user_team = Team.objects.filter(users_in_team__id = current_user.id)\
+            .filter(game__id=gameid)\
+            .first()
         if current_user_team:
             context["team_name"] = current_user_team.name
             u_in_team = current_user_team.users_in_team.values('id', 'username').all()

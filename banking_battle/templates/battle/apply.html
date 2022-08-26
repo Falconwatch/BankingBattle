@@ -4,6 +4,7 @@
 <h1 class="title">
   Страница создания команды
 </h1>
+<h2>Игра {{game_title}}</h2>
 
 {% if user_has_team%}
 <p>Вы уже состоите в команде {{team_name}} в этой игре</p>
@@ -22,6 +23,7 @@
 </table>
 
 {%else%}
+<p>Форма заявки на участие в игре ниже</p>
 <form class="form" method = "post" action = "team_create">
   <label for="teamname">Имя команды</label><br>
   <input type="text" id="teamname" name="teamname" value=""><br><br>
