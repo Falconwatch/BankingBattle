@@ -165,5 +165,16 @@ def download_file(request):
 def team_create(request):
     template = 'battle/team_create.html'
     context = {}
+    #TODO: передавать с какой игры был выполнене переход, если не с какой - кидай 404
+    if request.method == 'POST':
+        pass
+    else:
+        current_user = request.user
+        current_user_team = Team.objects.filter(users_in_team__id = current_user.id).first()
+        if current_user_team:
+            context["team_name"] = current_user_team.name
+            u_in_team = current_user_team.users_in_team.values('id', 'username').all()
+            context["user_has_team"] = True
+            context["user_in_team"] = u_in_team
+
     return render(request, template, context)
-    pass
