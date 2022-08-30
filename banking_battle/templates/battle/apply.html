@@ -6,31 +6,31 @@
 </h1>
 <h2>Игра {{game_title}}</h2>
 
-{% if user_has_team%}
-<p>Вы уже состоите в команде {{team_name}} в этой игре</p>
-Участники команды:
-<table class="table">
-  <tr>
-    <td>ID пользователя</td>
-    <td>Имя пользователя</td>
-  </tr>
-  {%for user in user_in_team%}
-  <tr>
-    <td>{{user.id}}</td>
-    <td>{{user.user_name}}</td>
-  </tr>
-  {%endfor%}
-</table>
-
+{%if state == "application"%}
+  <p>Вы уже подали заявку на участие в этой игре. Она находится на рассмотрении. Предложенное имя команды: {{team_name}}</p>
+{%elif state == "active_team"%}
+  <p>Вы уже состоите в команде {{team_name}} в этой игре</p>
+  Участники команды:
+  <table class="table">
+    <tr>
+      <td>ID пользователя</td>
+      <td>Имя пользователя</td>
+    </tr>
+    {%for user in user_in_team%}
+    <tr>
+      <td>{{user.id}}</td>
+      <td>{{user.user_name}}</td>
+    </tr>
+    {%endfor%}
+  </table>
+{%elif state == "applied"%}
+<p>Заявка на участие успешно подана</p>
 {%else%}
-<p>Форма заявки на участие в игре ниже</p>
-<form class="form" method = "post" action = "team_create">
-  <label for="teamname">Имя команды</label><br>
-  <input type="text" id="teamname" name="teamname" value=""><br><br>
-  <input type="button" value="Подать заявку">
-</form>
+  <p>Форма заявки на участие в игре ниже</p>
+  <form class="form" method = "post" action = "">{% csrf_token %}
+    <label for="name">Имя команды</label><br>
+    <input type="text" id="name" name="name" value=""><br><br>
+    <input type="submit" value="Подать заявку">
+  </form>
 {%endif%}
-
-
-
 {% endblock %}
