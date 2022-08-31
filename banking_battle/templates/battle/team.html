@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  Команда {{team.name}}
+</h1>
+
+<p>Участники команды</p>
+<table class = "table">
+  <tr>
+    <th>Имя пользователя</th>
+    <th>Статус</th>
+  </tr>
+{% for user in users_in_team %}
+  <tr>
+    <td>{{user.username}}</td>
+    <td>{% if user.is_creator %} создатель {%else%} участник {% endif %}</td>
+  </tr>
+{% endfor %}
+  </table>
+
+<p>Приглашения и запросы</p>
+<table class = "table">
+  <tr>
+    <th>Имя пользователя</th>
+    <th>Заявка/приглашение</th>
+    <th>Действие</th>
+  </tr>
+{% for inv in invitations %}
+  <tr>
+    <td>{{inv.username}}</td>
+    <td>{{inv.type}}</td>
+    <td><button>Действие</button></td>
+  </tr>
+{% endfor %}
+  </table>
+
+
+
+
+{% endblock %}
