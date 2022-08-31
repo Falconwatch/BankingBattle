@@ -171,6 +171,11 @@ def download_file(request):
 
 @login_required
 def apply(request, gameid):
+    def get_unique_rand():
+        while True:
+            code = User.objects.make_random_password()
+            if not Team.objects.filter(invite_code = code).exists():
+                return code
     template = 'battle/apply.html'
     context = {}
     #проверяем есть ли такая игра, если нет - 404
@@ -185,7 +190,7 @@ def apply(request, gameid):
             team_application = Team(state = "application", game = game)
             team_application.creator = current_user
             team_application.name = application_form.cleaned_data['name']
-            #team_application.invitation_code = get_unique_rand()
+            team_application.invite_code = get_unique_rand()
             team_application.save()
             team_application.users_in_team.set([current_user])
             team_application.save()
@@ -193,7 +198,6 @@ def apply(request, gameid):
             render(request, template, context)
     else: #в ином случае проверяем нет ли активнйо заявки: есть - показываем её, нет - выводим форму
         application = get_created_application(creator_id=current_user.id, game_id=game.id)
-        print(application)
         if application:
             context["state"] = "application"
             context["team_name"] = application.name
@@ -219,6 +223,7 @@ def manage_team(request, teamid):
     context["team"] = team
     context["users_in_team"] = users
     context["invitations"] = invitations
+    context["invitation_code"] = team.invite_code
 
     return render(request,template,context)
 

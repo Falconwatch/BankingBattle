@@ -26,6 +26,7 @@ class Team(models.Model):
     users_in_team = models.ManyToManyField(User, related_name='users_teams')
     game = models.ForeignKey(Game, on_delete=models.SET_NULL, null=True)
     creator = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    invite_code = models.CharField(default="", max_length=16)
     state = models.CharField(max_length=256, default="application")
     #задуманные состояния application - заявка на создание команды, active - команда активна, другие
     #ToDo: перевести состояния в Enum???
