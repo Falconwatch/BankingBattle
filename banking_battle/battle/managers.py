@@ -40,14 +40,3 @@ def get_team_users(team_id = None, team = None):
     users = team.users_in_team.values("username", "id").all()
     users = users.annotate(is_creator = Case(When(id = team.creator.id, then=True), default = False))
     return users
-
-def get_team_invitations(team_id = None, team=None):
-    assert(team_id or team)
-    if team_id:
-        team = get_team_by_id(team_id)
-        if team is None:
-            return list()
-
-
-
-

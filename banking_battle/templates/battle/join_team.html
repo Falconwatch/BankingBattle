@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  Заявка на вступление команду {{team.name}}
+</h1>
+
+{%if state == "enable"%}
+<form class ="form" method="post" action="{%url 'battle:join_team' code=invitation_code%}">
+  {% csrf_token %}
+  <input type="submit" value="Вступить!">
+</form>
+{%elif state == "exists"%}
+<p>Ваша заявка находится на рассмотрении</p>
+{%elif state == "accepted"%}
+<p>Заявка принята! </p>
+{%elif state == "user_in_team"%}
+<p>Вы уже состоите в этой команде </p>
+{%else%}
+<p>Какая-то ошибка :( </p>
+{%endif%}
+
+
+
+
+
+{% endblock %}

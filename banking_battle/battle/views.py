@@ -229,9 +229,32 @@ def manage_team(request, teamid):
 
 @login_required()
 def join_team(request, code):
+    template = "battle/join_team.html"
     team = get_object_or_404(Team, invite_code = code)
     user = request.user
-    invitation = TeamInvitation()
-    invitation.user = user
-    invitation.team = team
-    invitation.save()
+    team_invitation_exists = TeamInvitation.objects.filter(team=team).filter(user=user).exists()
+    user_in_team = team.users_in_team.filter(id=user.id).exists()
+
+    context = {}
+    context['team'] = team
+    context['invitation_code'] = code
+
+    if user_in_team:
+        context['state'] = "user_in_team"
+        return render(request, template, context)
+
+    if request.method=="POST": #пришла заявка на вступление
+        if not team_invitation_exists:
+            invitation = TeamInvitation()
+            invitation.user = user
+            invitation.team = team
+            invitation.save()
+            context['state'] = "accepted"
+        else:
+            context['state'] = "exists"
+    else:
+        if team_invitation_exists:
+            context['state'] = "exists"
+        else:
+            context['state'] = "enable"
+    return render(request, template, context)
