@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  Заявка на вступление команду {{team.name}} от {{user.username}}
+</h1>
+
+{%if state == "first"%}
+<form method="post">
+  {% csrf_token %}
+  <input type="submit" name="yes" value="Принять">
+  <input type="submit" name = "no" value="Отказать">
+</form>
+{%else%}
+<p>Заявка обработана: {{state}}</p>
+{%endif%}
+
+
+
+
+
+{% endblock %}

@@ -33,7 +33,7 @@
     <td>{{inv.user.username}}</td>
     <td>{{inv.date}}</td>
     <td>-</td>
-    <td><button>Действие</button></td>
+    <td><button><a href="{% url 'battle:join_team_overview' joinid=inv.id %}">К приглашению </a></button></td>
   </tr>
 {% endfor %}
   </table>

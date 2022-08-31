@@ -27,7 +27,8 @@
 <p>Заявка на участие успешно подана</p>
 {%else%}
   <p>Форма заявки на участие в игре ниже</p>
-  <form class="form" method = "post" action = "">{% csrf_token %}
+  <form class="form" method = "post" action = "">
+    {% csrf_token %}
     <label for="name">Имя команды</label><br>
     <input type="text" id="name" name="name" value=""><br><br>
     <input type="submit" value="Подать заявку">

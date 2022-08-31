@@ -258,3 +258,26 @@ def join_team(request, code):
         else:
             context['state'] = "enable"
     return render(request, template, context)
+
+def join_team_overview(request, joinid):
+    template = "battle/join_team_overview.html"
+    context={}
+    team_join = get_object_or_404(TeamInvitation, id = joinid)
+    joining_user = team_join.user
+    joining_team = team_join.team
+    print(joining_team)
+
+    context["team"] = joining_team
+    context["user"] = joining_user
+    context["state"] = "first"
+
+    if request.method=="POST":
+        if request.POST.get("yes"):#принимаем пользователя в команду
+            joining_team.users_in_team.add(joining_user)
+            context["state"] = "Принято"
+            team_join.delete()
+        elif request.POST.get("no"):#отказываем и удаляем заявку
+            context["state"] = "Отказано"
+            team_join.delete()
+
+    return render(request, template, context)

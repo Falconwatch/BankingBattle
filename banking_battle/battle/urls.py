@@ -15,6 +15,7 @@ urlpatterns = [
     path('download_submit/<int:submit_id>', views.download_submit, name='download_submit'),
     path('apply/<int:gameid>', views.apply, name='apply'),
     path('team/<int:teamid>', views.manage_team, name="team"),
-    path('join_team/<str:code>', views.join_team, name="join_team")
+    path('join_team/<str:code>', views.join_team, name="join_team"),
+    path('join_team_overview/<int:joinid>', views.join_team_overview, name="join_team_overview")
 
 ] 
