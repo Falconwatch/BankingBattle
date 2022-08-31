@@ -21,6 +21,10 @@ class Team(models.Model):
     id = models.BigAutoField(primary_key=True)
     users_in_team = models.ManyToManyField(User, related_name='users_teams')
     game = models.ForeignKey(Game, on_delete=models.SET_NULL, null=True)
+    creator = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    state = models.CharField(max_length=256, default="application")
+    #задуманные состояния application - заявка на создание команды, active - команда активна, другие
+    #ToDo: перевести состояния в Enum???
 
     class Meta:
         ordering = ['id']

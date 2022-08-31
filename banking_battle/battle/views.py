@@ -9,6 +9,9 @@ from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404, render
 
+from .forms import ApplicationForm
+from .managers import *
+
 from .models import User, Game, Round, Submit, Team
 
 
@@ -19,7 +22,7 @@ def index(request):
         return render(request, template)
     else:
         template = 'battle/index_signedin.html'
-        users_teams = user.users_teams.all()
+        users_teams = get_teams(user_id=user.id)
         context = {
             'user': user,
             'users_teams': users_teams
@@ -54,7 +57,9 @@ def leaders(request):
 def game(request, gameid):
     user = request.user
     game = Game.objects.get(pk=gameid)
-    team = Team.objects.filter(game__id=1).filter(users_in_team__in=[user.id]).first()
+    team = get_teams(user_id=user.id, game_id=game.id)
+
+    #team = Team.objects.filter(game__id=1).filter(users_in_team__in=[user.id]).first()
 
     # тут собираем лидерборд
     submits_in_game = Submit.objects.filter(round__game__id=gameid)
@@ -105,7 +110,8 @@ def round(request, roundid):
     game_round = Round.objects.get(pk=roundid)
     game = game_round.game
     user = request.user
-    team = Team.objects.filter(users_in_team__id__contains=user.id).first()
+    team = get_teams(user_id=user.id, game_id=game.id)
+    #team = Team.objects.filter(users_in_team__id__contains=user.id).first()
     team_submits_in_this_round = Submit.objects.filter(round__id=roundid).filter(team__id=team.id).all()
 
     if request.method == 'POST' and len(request.FILES) > 0:
@@ -132,8 +138,9 @@ def round(request, roundid):
 @login_required
 def download_submit(request, submit_id):
     user = request.user
-    team = Team.objects.filter(users_in_team__id__contains=user.id).first()
-    submit = Submit.objects.filter(id=submit_id).filter(team__id=team.id).first()
+    teams = get_teams(user_id=user.id)
+    #team = Team.objects.filter(users_in_team__id__contains=user.id).first()
+    submit = Submit.objects.filter(id=submit_id).filter(team = teams).first()
 
     file_name = submit.file.name
 
@@ -159,3 +166,40 @@ def download_file(request):
     response = HttpResponse(fl, content_type=mime_type)
     response['Content-Disposition'] = "attachment; filename=%s" % filename
     return response
+
+
+@login_required
+def apply(request, gameid):
+    template = 'battle/apply.html'
+    context = {}
+    #проверяем есть ли такая игра, если нет - 404
+    game = get_object_or_404(Game, id=gameid)
+    context["game_title"] = game.title
+    context["game_id"] = game.id
+    current_user = request.user
+    #теперь ветвление по логике
+    if request.method == 'POST': #если пришёл POST запрос, это сабмит формы-заявки
+        application_form = ApplicationForm(request.POST)
+        if application_form.is_valid():
+            team_application = Team(state = "application", game = game)
+            team_application.creator = current_user
+            team_application.name = application_form.cleaned_data['name']
+            team_application.save()
+            team_application.users_in_team.set([current_user])
+            team_application.save()
+            context["state"] = "applied"
+            render(request, template, context)
+    else: #в ином случае проверяем нет ли активнйо заявки: есть - показываем её, нет - выводим форму
+        application = get_created_application(creator_id=current_user.id, game_id=game.id)
+        print(application)
+        if application:
+            context["state"] = "application"
+            context["team_name"] = application.name
+        else: #заявок нет - ищем команду
+            team = get_created_teams(creator_id=current_user.id, game_id=game.id)
+            if team:
+                context["state"] = "active_team"
+                context["team_name"] = team.name
+            else: #нет ни заявки, ни команды - показываем форму
+                context["state"] = "none"
+    return render(request, template, context)
