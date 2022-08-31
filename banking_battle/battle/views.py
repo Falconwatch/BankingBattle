@@ -12,7 +12,7 @@ from django.shortcuts import get_object_or_404, render
 from .forms import ApplicationForm
 from .managers import *
 
-from .models import User, Game, Round, Submit, Team
+from .models import User, Game, Round, Submit, Team, TeamInvitation
 
 
 def index(request):
@@ -217,7 +217,7 @@ def manage_team(request, teamid):
 
     team = get_object_or_404(Team, id=teamid)
     users = get_team_users(team=team)
-    invitations = list()
+    invitations = TeamInvitation.objects.filter(team = team)
 
     context = {}
     context["team"] = team
@@ -227,4 +227,11 @@ def manage_team(request, teamid):
 
     return render(request,template,context)
 
-    pass
+@login_required()
+def join_team(request, code):
+    team = get_object_or_404(Team, invite_code = code)
+    user = request.user
+    invitation = TeamInvitation()
+    invitation.user = user
+    invitation.team = team
+    invitation.save()

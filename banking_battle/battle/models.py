@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from datetime import datetime
 
 User = get_user_model()
 
@@ -14,11 +15,6 @@ class Game(models.Model):
 
     def __str__(self):
         return self.title
-
-
-
-
-
 
 class Team(models.Model):
     name = models.CharField(max_length=256)
@@ -37,7 +33,11 @@ class Team(models.Model):
     def __str__(self):
         return self.name
 
-
+class TeamInvitation(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=False)
+    date = models.DateTimeField(default=datetime.now, blank=True)
 
 
 class Round(models.Model):

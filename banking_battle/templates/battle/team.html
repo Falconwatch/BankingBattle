@@ -20,17 +20,19 @@
   </table>
 
 <p>Приглашения и запросы</p>
-<p>Код для приглашения: {{invitation_code}}</p>
+<p>Ссылка для приглашения: {% url 'battle:join_team' code=invitation_code %}</p>
 <table class = "table">
   <tr>
     <th>Имя пользователя</th>
+    <th>Дата</th>
     <th>Заявка/приглашение</th>
     <th>Действие</th>
   </tr>
 {% for inv in invitations %}
   <tr>
-    <td>{{inv.username}}</td>
-    <td>{{inv.type}}</td>
+    <td>{{inv.user.username}}</td>
+    <td>{{inv.date}}</td>
+    <td>-</td>
     <td><button>Действие</button></td>
   </tr>
 {% endfor %}
