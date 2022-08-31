@@ -16,6 +16,10 @@ class Game(models.Model):
         return self.title
 
 
+
+
+
+
 class Team(models.Model):
     name = models.CharField(max_length=256)
     id = models.BigAutoField(primary_key=True)
@@ -31,6 +35,8 @@ class Team(models.Model):
 
     def __str__(self):
         return self.name
+
+
 
 
 class Round(models.Model):
@@ -72,3 +78,10 @@ class Submit(models.Model):
 
     def __str__(self):
         return str(self.file)
+
+class Invitation(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    type = models.CharField(max_length=256, default="incoming") #incoming - пользователь просится в команду, outcoing - пользователя приглашают в команду
+    state = models.CharField(max_length=256, default="pending") #pending - ожидает решения, inactive - решение было принято

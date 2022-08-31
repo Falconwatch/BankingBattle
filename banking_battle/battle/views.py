@@ -81,7 +81,7 @@ def game(request, gameid):
     user_result = dict()
     if user_in_team:
         user_result = {"result": teams_results_in_game_dict[(team.id, team.name)],
-                       "team_name": team.name}
+                       "team_name": team.name,}
         teams_results_in_game = [(idenifier, result, 1 if idenifier[0] == team.id else 0) for idenifier, result, flag in
                                  teams_results_in_game]
 
@@ -90,6 +90,7 @@ def game(request, gameid):
 
     template = 'battle/game.html'
     context = {"game": game,
+               "team":team,
                "leader_board": teams_results_in_game,
                "user_in_team": user_in_team,
                "user_result": user_result,
@@ -184,6 +185,7 @@ def apply(request, gameid):
             team_application = Team(state = "application", game = game)
             team_application.creator = current_user
             team_application.name = application_form.cleaned_data['name']
+            #team_application.invitation_code = get_unique_rand()
             team_application.save()
             team_application.users_in_team.set([current_user])
             team_application.save()
@@ -203,3 +205,21 @@ def apply(request, gameid):
             else: #нет ни заявки, ни команды - показываем форму
                 context["state"] = "none"
     return render(request, template, context)
+
+
+@login_required
+def manage_team(request, teamid):
+    template = 'battle/team.html'
+
+    team = get_object_or_404(Team, id=teamid)
+    users = get_team_users(team=team)
+    invitations = list()
+
+    context = {}
+    context["team"] = team
+    context["users_in_team"] = users
+    context["invitations"] = invitations
+
+    return render(request,template,context)
+
+    pass
