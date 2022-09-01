@@ -1,5 +1,5 @@
 from django import forms
-from .models import Submit, Team
+from .models import Submit, Team, Game
 
 class SubmitForm(forms.ModelForm):
     class Meta:
@@ -10,3 +10,9 @@ class ApplicationForm(forms.ModelForm):
     class Meta:
         model = Team
         fields = ["name"]
+
+class GameForm(forms.ModelForm):
+
+    class Meta:
+        model = Game
+        fields = ('title', 'description')

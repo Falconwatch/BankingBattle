@@ -6,8 +6,8 @@ User = get_user_model()
 
 
 class Game(models.Model):
-    title = models.CharField(max_length=30)
-    description = models.CharField(max_length=3000)
+    title = models.CharField(max_length=30, verbose_name='Название игры')
+    description = models.CharField(max_length=3000, verbose_name='Описание')
     id = models.BigAutoField(primary_key=True)
 
     class Meta:

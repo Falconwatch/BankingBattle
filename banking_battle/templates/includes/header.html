@@ -3,6 +3,11 @@
   <nav class="navbar">
       <div class="container">
           <div class="navbar-end">
+            {% if user.is_superuser %}
+              <a href="{% url 'battle:game_create' %}" class="navbar-item">
+                Создать игру
+              </a>
+            {% endif %}
               <a href="{% url 'battle:index' %}" class="navbar-item">
                 Главная
               </a>
