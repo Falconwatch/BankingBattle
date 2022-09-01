@@ -10,7 +10,7 @@
     <div class="tile is-child box" >
       <a class="title has-text-black" href="{% url 'battle:results'%}">Ваш результат</a>
       {% if user_in_team %}
-      <p>Ваша команда: {{user_result.team_name}}</p>
+      <p>Ваша команда: <a  href="{% url 'battle:team' teamid=team.id%}">{{user_result.team_name}} </a></p>
 
         <p>Ваш результат: </p><h1>{{user_result.result}}</h1>
       {% else %}

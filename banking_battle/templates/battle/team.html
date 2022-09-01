@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  Команда {{team.name}}
+</h1>
+
+<p>Участники команды</p>
+<table class = "table">
+  <tr>
+    <th>Имя пользователя</th>
+    <th>Статус</th>
+  </tr>
+{% for user in users_in_team %}
+  <tr>
+    <td>{{user.username}}</td>
+    <td>{% if user.is_creator %} создатель {%else%} участник {% endif %}</td>
+  </tr>
+{% endfor %}
+  </table>
+
+<p>Приглашения и запросы</p>
+<p>Ссылка для приглашения: {% url 'battle:join_team' code=invitation_code %}</p>
+<table class = "table">
+  <tr>
+    <th>Имя пользователя</th>
+    <th>Дата</th>
+    <th>Заявка/приглашение</th>
+    <th>Действие</th>
+  </tr>
+{% for inv in invitations %}
+  <tr>
+    <td>{{inv.user.username}}</td>
+    <td>{{inv.date}}</td>
+    <td>-</td>
+    <td><button><a href="{% url 'battle:join_team_overview' joinid=inv.id %}">К приглашению </a></button></td>
+  </tr>
+{% endfor %}
+  </table>
+
+
+
+
+{% endblock %}
