@@ -1,0 +1,50 @@
+[
+    {
+        "pk": 1,
+        "model": "battle.Round",
+        "fields": {
+            "name": "round1",
+            "game": 1
+        }
+    },
+    {
+        "pk": 2,
+        "model": "battle.Round",
+        "fields": {
+            "name": "round2",
+            "game": 1
+        }
+    },
+    {
+        "pk": 3,
+        "model": "battle.Round",
+        "fields": {
+            "name": "round1",
+            "game": 2
+        }
+    },
+    {
+        "pk": 4,
+        "model": "battle.Round",
+        "fields": {
+            "name": "round2",
+            "game": 2
+        }
+    },
+    {
+        "pk": 5,
+        "model": "battle.Round",
+        "fields": {
+            "name": "round3",
+            "game": 2
+        }
+    },
+    {
+        "pk": 6,
+        "model": "battle.Round",
+        "fields": {
+            "name": "round1",
+            "game": 3
+        }
+    }
+]
