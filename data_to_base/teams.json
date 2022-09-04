@@ -1,0 +1,66 @@
+[
+    {
+        "pk": 1,
+        "model": "battle.Team",
+        "fields": {
+            "name": "teamname1",
+            "users_in_team": [1,2,3],
+            "game": 1,
+            "creator": 1,
+            "state":"active"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "battle.Team",
+        "fields": {
+            "name": "teamname2",
+            "users_in_team": [1,2,3],
+            "game": 2,
+            "creator": 1,
+            "state":"active"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "battle.Team",
+        "fields": {
+            "name": "teamname3",
+            "users_in_team": [1,2,3],
+            "game": 3,
+            "creator": 1
+        }
+    },
+    {
+        "pk": 4,
+        "model": "battle.Team",
+        "fields": {
+            "name": "teamname4",
+            "users_in_team": [4,5],
+            "game": 1,
+            "creator": 4,
+            "state":"active"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "battle.Team",
+        "fields": {
+            "name": "teamname5",
+            "users_in_team": [4,5],
+            "game": 2,
+            "creator": 4
+        }
+    },
+    {
+        "pk": 6,
+        "model": "battle.Team",
+        "fields": {
+            "name": "teamname5",
+            "users_in_team": [5],
+            "game": 3,
+            "creator": 5,
+            "state":"active"
+        }
+    }
+]

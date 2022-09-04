@@ -1,0 +1,26 @@
+[
+    {
+        "pk": 1,
+        "model": "battle.Game",
+        "fields": {
+            "title": "testgame1",
+            "description": "testgame1"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "battle.Game",
+        "fields": {
+            "title": "testgame2",
+            "description": "testgame2"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "battle.Game",
+        "fields": {
+            "title": "testgame3",
+            "description": "testgame3"
+        }
+    }
+]

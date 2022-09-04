@@ -1,0 +1,74 @@
+[
+    {
+        "pk": 1,
+        "model": "auth.user",
+        "fields": {
+            "username": "testuser1",
+            "password": "pbkdf2_sha256$260000$kKvmpQUwi7Es00eBwRZsRi$9W4DUsrTJDtRH09mKsjot4AVU2kDBKudC9TdqppASzU="
+        }
+    },
+    {
+        "pk": 2,
+        "model": "auth.user",
+        "fields": {
+            "username": "testuser2",
+            "password": "pbkdf2_sha256$260000$kKvmpQUwi7Es00eBwRZsRi$9W4DUsrTJDtRH09mKsjot4AVU2kDBKudC9TdqppASzU="
+        }
+    },
+    {
+        "pk": 3,
+        "model": "auth.user",
+        "fields": {
+            "username": "testuser3",
+            "password": "pbkdf2_sha256$260000$kKvmpQUwi7Es00eBwRZsRi$9W4DUsrTJDtRH09mKsjot4AVU2kDBKudC9TdqppASzU="
+        }
+    },
+    {
+        "pk": 4,
+        "model": "auth.user",
+        "fields": {
+            "username": "testuser4",
+            "password": "pbkdf2_sha256$260000$kKvmpQUwi7Es00eBwRZsRi$9W4DUsrTJDtRH09mKsjot4AVU2kDBKudC9TdqppASzU="
+        }
+    },
+    {
+        "pk": 5,
+        "model": "auth.user",
+        "fields": {
+            "username": "testuser5",
+            "password": "pbkdf2_sha256$260000$kKvmpQUwi7Es00eBwRZsRi$9W4DUsrTJDtRH09mKsjot4AVU2kDBKudC9TdqppASzU="
+        }
+    },
+    {
+        "pk": 6,
+        "model": "auth.user",
+        "fields": {
+            "username": "testuser6",
+            "password": "pbkdf2_sha256$260000$kKvmpQUwi7Es00eBwRZsRi$9W4DUsrTJDtRH09mKsjot4AVU2kDBKudC9TdqppASzU="
+        }
+    },
+    {
+        "pk": 7,
+        "model": "auth.user",
+        "fields": {
+            "username": "testuser7",
+            "password": "pbkdf2_sha256$260000$kKvmpQUwi7Es00eBwRZsRi$9W4DUsrTJDtRH09mKsjot4AVU2kDBKudC9TdqppASzU="
+        }
+    },
+    {
+        "pk": 8,
+        "model": "auth.user",
+        "fields": {
+            "username": "testuser8",
+            "password": "pbkdf2_sha256$260000$kKvmpQUwi7Es00eBwRZsRi$9W4DUsrTJDtRH09mKsjot4AVU2kDBKudC9TdqppASzU="
+        }
+    },
+    {
+        "pk": 9,
+        "model": "auth.user",
+        "fields": {
+            "username": "testuser9",
+            "password": "pbkdf2_sha256$260000$kKvmpQUwi7Es00eBwRZsRi$9W4DUsrTJDtRH09mKsjot4AVU2kDBKudC9TdqppASzU="
+        }
+    }
+]

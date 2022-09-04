@@ -28,6 +28,11 @@ python3 manage.py makemigrations
 python3 manage.py migrate
 ```
 
+Для заполнения БД выполните скрипт fill_the_base.sh :
+```
+./fill_the_base.sh
+```
+
 5) Для создания Superuser папке с файлом manage.py выполните команду:
 ```
 python3 manage.py createsuperuser 
