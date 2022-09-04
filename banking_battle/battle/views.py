@@ -6,13 +6,12 @@ import django.db.models as f
 from banking_battle.settings import BASE_DIR
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
-from django.http import HttpResponse, Http404
-from django.shortcuts import get_object_or_404, render
+from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import ApplicationForm
+from .forms import ApplicationForm, GameForm
 from .managers import *
-
-from .models import User, Game, Round, Submit, Team, TeamInvitation
+from .models import Game, Round, Submit, Team, TeamInvitation, User
 
 
 def index(request):
@@ -281,3 +280,15 @@ def join_team_overview(request, joinid):
             team_join.delete()
 
     return render(request, template, context)
+
+@login_required
+def game_create(request):
+    template = 'battle/game_creation.html'
+    form = GameForm(
+        request.POST or None)
+    if request.method != 'POST':
+        return render(request, template, {'form': form})
+    if form.is_valid():
+        game = form.save()
+        return redirect('battle:game', game.pk)
+    return render(request, template, {'form': form})
